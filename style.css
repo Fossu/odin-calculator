@@ -32,8 +32,7 @@ body {
   gap: 5px;
 }
 
-.numberButton,
-.operatorButton {
+.button {
   width: 100px;
   height: 100px;
   padding: 0;
@@ -45,4 +44,11 @@ body {
 .input,
 .output {
   text-align: right;
+}
+
+.clearButton {
+  padding: 10px;
+  margin: 10px;
+  border: 0;
+  font-size: 30px;
 }
