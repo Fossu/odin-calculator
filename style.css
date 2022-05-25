@@ -6,7 +6,43 @@ body {
 
 .calculator {
   display: flex;
-  border: 2px solid black;
-  height: 600px;
-  width: 600px;
+  border: 10px solid black;
+  height: 500px;
+  width: 500px;
+  padding: 50px;
+  flex-direction: column;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.numberButtons {
+  display: flex;
+  flex-wrap: wrap;
+  width: 310px;
+  gap: 5px;
+}
+
+.operatorButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.numberButton,
+.operatorButton {
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-size: 30px;
+}
+
+.input,
+.output {
+  text-align: right;
 }
