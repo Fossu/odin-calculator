@@ -45,7 +45,6 @@ function updateInput(e) {
 
 const equals = document.querySelector('#equals');
 const dot = document.querySelector('#dot');
-
 equals.addEventListener('click', updateOutput);
 
 function updateOutput(e) {
@@ -58,27 +57,88 @@ function operate(equation) {
   let numbers = [];
   let operators = [];
   let sliceStart = 0;
+  if (operatorsArray.includes(value[1]) == true ||
+    operatorsArray.includes(value[value.length - 2]) == true) {
+    return 'Error, string cannon begin or end on an operator';
+  }
   for (let i = 0; i < value.length; i++) {
     if (operatorsArray.includes(value[i])) {
+      if (i == sliceStart) {
+        return "Error, double operator";
+      }
       numbers.push(value.slice(sliceStart, i).join(''));
       operators.push(value[i]);
       sliceStart = i + 1;
     }
   }
   numbers.push(value.slice(sliceStart, value.length - 1).join(''));
-  console.log(numbers);
-  console.log(operators);
-  console.log(value);
-  return value;
+  // console.log(numbers);
+  // console.log(operators);
+  while (operators.includes('*') == true || operators.includes('/') == true) {
+    const index = Math.min(
+      (operators.indexOf('*') != -1 ? operators.indexOf('*') : 99999999),
+      (operators.indexOf('/') != -1 ? operators.indexOf('/') : 99999999));
+    numbers[index + 1] = atomOperate(numbers[index], numbers[index + 1], operators[index]);
+    numbers[index] = 'toRemove';
+    operators[index] = 'toRemove';
+  }
+  removeItem(numbers, 'toRemove');
+  removeItem(operators, 'toRemove');
+  while (operators.includes('+') == true || operators.includes('-') == true) {
+    const index = Math.min(
+      (operators.indexOf('+') != -1 ? operators.indexOf('+') : 99999999),
+      (operators.indexOf('-') != -1 ? operators.indexOf('-') : 99999999));
+    // console.log(atomOperate(numbers[index], numbers[index + 1], operators[index]));
+    numbers[index + 1] = atomOperate(numbers[index], numbers[index + 1], operators[index]);
+    numbers[index] = 'toRemove';
+    operators[index] = 'toRemove';
+  }
+  removeItem(numbers, 'toRemove');
+  removeItem(operators, 'toRemove');
+  // console.log(numbers);
+  // console.log(operators);
+  // console.log(value);
+  return numbers;
+}
+
+function removeItem(array, item) {
+  var i = array.length;
+  while (i--) {
+    if (array[i] === item) {
+      array.splice(array.indexOf(item), 1);
+    }
+  }
+}
+
+function atomOperate(x, y, operator) {
+  if (operator == '+') {
+    return x + y;
+  }
+  if (operator == '-') {
+    return x - y;
+  }
+  if (operator == '*') {
+    return x * y;
+  }
+  if (operator == '/') {
+    return x / y;
+  }
 }
 
 const clearButton = document.querySelector('.clearButton');
 clearButton.addEventListener('click', clearInputOutput);
+
 function clearInputOutput(e) {
   input.innerHTML = '&nbsp';
   output.innerHTML = '&nbsp';
   allButtons.forEach(button => button.disabled = false);
 }
+
+
+
+
+
+
 
 
 
