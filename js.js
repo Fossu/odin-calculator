@@ -55,9 +55,19 @@ function updateOutput(e) {
 
 function operate(equation) {
   let value = equation.split('');
-  // for (let i = 0; i < value.length; i++) {
-  //   if 
-  // }
+  let numbers = [];
+  let operators = [];
+  let sliceStart = 0;
+  for (let i = 0; i < value.length; i++) {
+    if (operatorsArray.includes(value[i])) {
+      numbers.push(value.slice(sliceStart, i).join(''));
+      operators.push(value[i]);
+      sliceStart = i + 1;
+    }
+  }
+  numbers.push(value.slice(sliceStart, value.length - 1).join(''));
+  console.log(numbers);
+  console.log(operators);
   console.log(value);
   return value;
 }
