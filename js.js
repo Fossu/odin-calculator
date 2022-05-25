@@ -9,16 +9,19 @@ for (i = 1; i < 10; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
   button.classList.add(i);
+  button.setAttribute('data-key', i + 48);
   buttons.appendChild(button);
   button.textContent = i;
 }
 
 const operatorsArray = ['+', '-', "*", "/"];
 const operatorsID = ['plus', 'minus', 'times', 'divide'];
+const operatorsKeyPresses = [43, 45, 42, 47];
 for (i = 0; i < 4; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
   button.classList.add(operatorsArray[i]);
+  button.setAttribute('data-key', operatorsKeyPresses[i]);
   button.setAttribute('id', operatorsID[i]);
   operators.appendChild(button);
   button.textContent = operatorsArray[i];
@@ -26,10 +29,12 @@ for (i = 0; i < 4; i++) {
 
 const extrasArray = ['0', '.', '='];
 const extrasID = ['zero', 'dot', 'equals'];
+const extrasKeyPresses = [48, 46, 61];
 for (i = 0; i < 3; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
   button.classList.add(extrasArray[i]);
+  button.setAttribute('data-key', extrasKeyPresses[i]);
   button.setAttribute('id', extrasID[i]);
   buttons.appendChild(button);
   button.textContent = extrasArray[i];
@@ -59,7 +64,7 @@ function operate(equation) {
   let sliceStart = 0;
   if (operatorsArray.includes(value[1]) == true ||
     operatorsArray.includes(value[value.length - 2]) == true) {
-    return 'Error, string cannon begin or end on an operator';
+    return 'Error, string cannot begin or end on an operator';
   }
   for (let i = 0; i < value.length; i++) {
     if (operatorsArray.includes(value[i])) {
@@ -72,8 +77,8 @@ function operate(equation) {
     }
   }
   numbers.push(value.slice(sliceStart, value.length - 1).join(''));
-  // console.log(numbers);
-  // console.log(operators);
+  console.log(numbers);
+  console.log(operators);
   while (operators.includes('*') == true || operators.includes('/') == true) {
     const index = Math.min(
       (operators.indexOf('*') != -1 ? operators.indexOf('*') : 99999999),
@@ -88,16 +93,16 @@ function operate(equation) {
     const index = Math.min(
       (operators.indexOf('+') != -1 ? operators.indexOf('+') : 99999999),
       (operators.indexOf('-') != -1 ? operators.indexOf('-') : 99999999));
-    // console.log(atomOperate(numbers[index], numbers[index + 1], operators[index]));
+    console.log(atomOperate(numbers[index], numbers[index + 1], operators[index]));
     numbers[index + 1] = atomOperate(numbers[index], numbers[index + 1], operators[index]);
     numbers[index] = 'toRemove';
     operators[index] = 'toRemove';
   }
   removeItem(numbers, 'toRemove');
   removeItem(operators, 'toRemove');
-  // console.log(numbers);
-  // console.log(operators);
-  // console.log(value);
+  console.log(numbers);
+  console.log(operators);
+  console.log(value);
   return numbers;
 }
 
@@ -112,16 +117,16 @@ function removeItem(array, item) {
 
 function atomOperate(x, y, operator) {
   if (operator == '+') {
-    return x + y;
+    return Number(x) + Number(y);
   }
   if (operator == '-') {
-    return x - y;
+    return Number(x) - Number(y);
   }
   if (operator == '*') {
-    return x * y;
+    return Number(x) * Number(y);
   }
   if (operator == '/') {
-    return x / y;
+    return Number(x) / Number(y);
   }
 }
 
@@ -134,8 +139,18 @@ function clearInputOutput(e) {
   allButtons.forEach(button => button.disabled = false);
 }
 
+function linkKeyButton(e) {
+  if (e.keyCode == 13) {
+    const button = document.querySelector(`button[data-key="${61}"]`);
+    console.log(button);
+    button.click();
+  }
+  const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
+  console.log(button);
+  button.click();
+}
 
-
+window.addEventListener('keypress', linkKeyButton);
 
 
 
