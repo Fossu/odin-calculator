@@ -55,6 +55,7 @@ body {
 .input,
 .output {
   font-size: 40px;
+  resize: none;
   border-radius: 5px;
   margin: 1px;
   text-align: right;

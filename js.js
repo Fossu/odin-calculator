@@ -53,7 +53,7 @@ const dot = document.querySelector('#dot');
 equals.addEventListener('click', updateOutput);
 
 function updateOutput(e) {
-  output.textContent = operate(input.textContent);
+  output.innerHTML = operate(input.textContent);
   // allButtons.forEach(button => button.disabled = true);
 }
 
@@ -65,12 +65,12 @@ function operate(equation) {
   let sliceStart = 0;
   if (operatorsArray.includes(value[1]) == true ||
     operatorsArray.includes(value[value.length - 2]) == true) {
-    return 'Error, operator placement';
+    return '&nbsp;';
   }
   for (let i = 0; i < value.length; i++) {
     if (operatorsArray.includes(value[i])) {
       if (i == sliceStart) {
-        return "Error, double operator";
+        return '&nbsp;';
       }
       numbers.push(value.slice(sliceStart, i).join(''));
       operators.push(value[i]);
@@ -127,6 +127,9 @@ function atomOperate(x, y, operator) {
     return Number(x) * Number(y);
   }
   if (operator == '/') {
+    if (Number(y) == 0) {
+      return "Error";
+    }
     return Number(x) / Number(y);
   }
 }
@@ -161,7 +164,6 @@ function backspaceInputOutput(e) {
 function linkKeyButton(e) {
   if (e.keyCode == 13) {
     const button = document.querySelector(`button[data-key="${61}"]`);
-    console.log(button);
     button.click();
     return;
   }
@@ -176,12 +178,18 @@ function linkKeyButton(e) {
 }
 
 function clearAndBackspace(e) {
+  if (e.keyCode == 8) {
+    backspaceButton.click();
+  }
   if (output.innerHTML != "&nbsp;") {
     if (e.keyCode == 27) {
       clearButton.click();
     }
-    if (e.keyCode == 8) {
-      backspaceButton.click();
+    if (e.keyCode == 38) {
+      upButton.click();
+    }
+    if (e.keyCode == 13) {
+      upUpdate();
     }
   }
   return;
