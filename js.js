@@ -64,7 +64,7 @@ function operate(equation) {
   let sliceStart = 0;
   if (operatorsArray.includes(value[1]) == true ||
     operatorsArray.includes(value[value.length - 2]) == true) {
-    return 'Error, string cannot begin or end on an operator';
+    return 'Error, operator placement';
   }
   for (let i = 0; i < value.length; i++) {
     if (operatorsArray.includes(value[i])) {
@@ -134,6 +134,13 @@ const clearButton = document.querySelector('.clearButton');
 clearButton.addEventListener('click', clearInputOutput);
 const backspaceButton = document.querySelector('.backspaceButton');
 backspaceButton.addEventListener('click', backspaceInputOutput);
+const upButton = document.querySelector('.upButton');
+upButton.addEventListener('click', upUpdate);
+
+function upUpdate(e) {
+  input.textContent = output.textContent;
+  output.innerHTML = "&nbsp;";
+}
 
 function clearInputOutput(e) {
   input.innerHTML = '&nbsp';
@@ -158,23 +165,29 @@ function linkKeyButton(e) {
     return;
   }
   const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
-  console.log(button);
+  if (output.innerHTML != "&nbsp;") {
+    if (operatorsKeyPresses.includes(e.keyCode)) {
+      upUpdate();
+    }
+    else return;
+  }
   button.click();
 }
 
 function clearAndBackspace(e) {
-  if (e.keyCode == 27) {
-    clearButton.click();
-  }
-  if (e.keyCode == 8) {
-    backspaceButton.click();
+  if (output.innerHTML != "&nbsp;") {
+    if (e.keyCode == 27) {
+      clearButton.click();
+    }
+    if (e.keyCode == 8) {
+      backspaceButton.click();
+    }
   }
   return;
 }
 
 window.addEventListener('keypress', linkKeyButton);
 window.addEventListener('keydown', clearAndBackspace);
-
 
 
 
