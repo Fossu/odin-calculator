@@ -59,6 +59,7 @@ function updateOutput(e) {
 
 function operate(equation) {
   let value = equation.split('');
+  console.log(value);
   let numbers = [];
   let operators = [];
   let sliceStart = 0;
@@ -138,7 +139,7 @@ const upButton = document.querySelector('.upButton');
 upButton.addEventListener('click', upUpdate);
 
 function upUpdate(e) {
-  input.textContent = output.textContent;
+  input.innerHTML = "&nbsp;" + output.textContent;
   output.innerHTML = "&nbsp;";
 }
 
