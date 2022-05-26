@@ -7,10 +7,12 @@ body {
 .calculator {
   display: flex;
   border: 10px solid black;
-  height: 500px;
-  width: 500px;
-  padding: 50px;
+  height: 550px;
+  width: 450px;
+  padding: 5px;
   flex-direction: column;
+  border-radius: 30px;
+  background-color: rgb(122, 30, 80);
 }
 
 .buttons {
@@ -26,30 +28,50 @@ body {
   gap: 5px;
 }
 
+.numberButtons>* {
+  background-color: rgb(237, 133, 209);
+}
+
 .operatorButtons {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
+.operatorButtons>* {
+  background-color: aquamarine;
+}
+
 .button {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   padding: 0;
   margin: 0;
   border: 0;
   font-size: 30px;
+  border-radius: 10px;
 }
 
 .input,
 .output {
-  font-size: 25px;
+  font-size: 40px;
+  border-radius: 5px;
+  margin: 1px;
   text-align: right;
+  background-color: rgba(255, 255, 255, 0.621);
 }
 
+.additional {
+  display: flex;
+}
+
+.upButton,
+.backspaceButton,
 .clearButton {
   padding: 10px;
   margin: 10px;
+  width: 150px;
   border: 0;
   font-size: 30px;
+  border-radius: 10px;
 }

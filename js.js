@@ -8,7 +8,7 @@ const output = document.querySelector('.output');
 for (i = 1; i < 10; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
-  button.classList.add(i);
+  button.classList.add('numberButton');
   button.setAttribute('data-key', i + 48);
   buttons.appendChild(button);
   button.textContent = i;
@@ -20,7 +20,7 @@ const operatorsKeyPresses = [43, 45, 42, 47];
 for (i = 0; i < 4; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
-  button.classList.add(operatorsArray[i]);
+  button.classList.add('operatorButton');
   button.setAttribute('data-key', operatorsKeyPresses[i]);
   button.setAttribute('id', operatorsID[i]);
   operators.appendChild(button);
@@ -33,7 +33,7 @@ const extrasKeyPresses = [48, 46, 61];
 for (i = 0; i < 3; i++) {
   const button = document.createElement('button');
   button.classList.add('button');
-  button.classList.add(extrasArray[i]);
+  button.classList.add('extraButton');
   button.setAttribute('data-key', extrasKeyPresses[i]);
   button.setAttribute('id', extrasID[i]);
   buttons.appendChild(button);
@@ -45,7 +45,7 @@ allButtons.forEach(button => button.addEventListener('click', updateInput));
 
 function updateInput(e) {
   const currentInput = input.textContent;
-  input.textContent = currentInput + e.target.classList[1];
+  input.textContent = currentInput + e.target.textContent;
 }
 
 const equals = document.querySelector('#equals');
@@ -54,7 +54,7 @@ equals.addEventListener('click', updateOutput);
 
 function updateOutput(e) {
   output.textContent = operate(input.textContent);
-  allButtons.forEach(button => button.disabled = true);
+  // allButtons.forEach(button => button.disabled = true);
 }
 
 function operate(equation) {
@@ -132,11 +132,22 @@ function atomOperate(x, y, operator) {
 
 const clearButton = document.querySelector('.clearButton');
 clearButton.addEventListener('click', clearInputOutput);
+const backspaceButton = document.querySelector('.backspaceButton');
+backspaceButton.addEventListener('click', backspaceInputOutput);
 
 function clearInputOutput(e) {
   input.innerHTML = '&nbsp';
   output.innerHTML = '&nbsp';
-  allButtons.forEach(button => button.disabled = false);
+  // allButtons.forEach(button => button.disabled = false);
+}
+
+function backspaceInputOutput(e) {
+  if (input.innerHTML != '&nbsp;') {
+    input.textContent = input.textContent.slice(0, -1);
+  }
+  if (input.innerHTML == '&nbsp;') {
+    clearButton.click();
+  }
 }
 
 function linkKeyButton(e) {
@@ -144,14 +155,25 @@ function linkKeyButton(e) {
     const button = document.querySelector(`button[data-key="${61}"]`);
     console.log(button);
     button.click();
+    return;
   }
   const button = document.querySelector(`button[data-key="${e.keyCode}"]`);
   console.log(button);
   button.click();
 }
 
-window.addEventListener('keypress', linkKeyButton);
+function clearAndBackspace(e) {
+  if (e.keyCode == 27) {
+    clearButton.click();
+  }
+  if (e.keyCode == 8) {
+    backspaceButton.click();
+  }
+  return;
+}
 
+window.addEventListener('keypress', linkKeyButton);
+window.addEventListener('keydown', clearAndBackspace);
 
 
 
